@@ -1,6 +1,6 @@
 # ANGO
 
-Projet de cartographie des emplois du numérique en France :  https://ango-jobs.herokuapp.com/
+Projet de cartographie des emplois du numérique en France :  http://ango.simplon.co/index.html.com/
 
 
 # pré-requis
