@@ -74,11 +74,15 @@ end
 
 def save_job(params)
 	puts "----------------- Method Save Job -------------".colorize(:yellow)
+
 	url = 'http://candidat.pole-emploi.fr/candidat/rechercheoffres/detail/' + "#{params[:id]}"
+
+	puts "-----------------URL ------------- #{url}".colorize(:green)
 	
 	#puts "------this is url parsed from search result for dpt : #{url}"
 
-	if doc.offer_unavailable(url) == false && doc.check_code_rome(url) == true && doc.check_is_a_city(url) == true
+	#if doc.offer_unavailable(url) == false && doc.check_code_rome(url) == true && doc.check_is_a_city(url) == true
+	#ce filtre ne fonctionne pas bien apparement....
 
 		CONN.exec("INSERT INTO parse (url, id) SELECT '#{url}', '#{params[:id]}' WHERE NOT EXISTS (select id from parse WHERE id = '#{params[:id]}')")
 
@@ -87,7 +91,7 @@ def save_job(params)
 		@nb_urls_add = @urls_after.length - @urls_before.length
 		puts "//////////// #{@nb_urls_add} URL(S) SAVED IN DB WITH THIS SCRIPT ///////////////".colorize(:green)
 		puts "  >>> IL Y A #{@urls_after.length} URL(S) DS LA BDD APRES INSERTION <<< "
-	end
+	#end
 end
 
 #----------------- Parse les urls métiers par départements pour récupérer l'id ----------

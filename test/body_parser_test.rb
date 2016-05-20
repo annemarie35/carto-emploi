@@ -10,19 +10,21 @@ class BodyParserTest < Minitest::Test
 
   print ">>>> HEY !!!!!! Start a server with $ruby -run -e httpd . -p 8000 --------------"
 
+  URL = "http://0.0.0.0:8000/test/offre_test_027FLJF.html"
+
   def doc
     ::BodyParser.new
   end
 
   def test_1_find_region
-    url = "http://0.0.0.0:8000/test/offre_test_027FLJF.html"
+    #url = "http://0.0.0.0:8000/test/offre_test_027FLJF.html"
     expected = "75 , PARIS 16E  ARRONDISSEMENT, FRANCE"
-    assert_equal expected, doc.search_region(url)
+    assert_equal expected, doc.search_region(URL)
   end
 
   def test_2_search_job_title
     url = "http://0.0.0.0:8000/test/offre_test_027FLJF.html"
-    expect = "Webmaster animateur / animatrice"
+    expect = "Développeur / Développeuse web"
     assert_equal expect, doc.search_title(url)
   end
 
@@ -44,13 +46,14 @@ class BodyParserTest < Minitest::Test
 
   def test_4_find_publication_date
     url = "http://0.0.0.0:8000/test/offre_test_027FLJF.html"
-    expect ="11/05/2015"
+    expect = "27/04/2016"
+
     assert_equal expect, doc.search_publication_date(url)
   end
 
   def test_5_job_offers_Description
     url = "http://0.0.0.0:8000/test/offre_test_027FLJF.html"
-    expect = "En premier lieu joindre des vraies  références  de site réalisés à votre  Cv <br><br>Vous devrez élaborer des stratégies digitales : audits des divers sites du groupe<br>- benchmark, identification des best-practices et rédaction des recommandations<br>Suivi opérationnel du déploiement <br>Webmastering, Community Management<br>Suivi et mesure de la performance des dispositifs mis en place<br>Serez en charge de l''optimisation SEO/SEA, comparateurs, et rédaction web (suivi et développement du référencement naturel, création et optimisation  adwords, remarketing<br>Vous aurez en charge le développement du référencement et de son optimisation.<br>Vous piloterez les données des conversions, analyserez le trafic, réaliserez des tests de type AB, et gèrerez les newsletters.<br>Vous pourrez également intervenir sur le CSS ou le design du site, et effectuer des mises à jours (fiches produits....)<br>Connaissances PHP OBjet CSS, html, et Photoshop seraient un reel plus<br>CONNAISSANCE EN DESIGN IMPERATIF"
+    expect = "Intégré(e) au sein d'une équipe d'une trentaine de personnes, organisée en projets et avec une gestion agile, vous principales missions sont:<br>- Développer et maintenir des applications web de gestion et traitements de contenu principalement développées en JAVA (JEE/GWT) et Javascript<br>- Assurez une veille technologique constante pour rester au plus haut niveau et garantir une adaptation des applications existantes reflétant l'état de l'art du domaine<br><br>De formation ingénieur informatique ou équivalent (Bac+5), vous justifiez d'une expérience significative d'au moins 3 ans sur un poste similaire. .<br><br>Compétences techniques requises<br>- JEE, GWT, JavaScript (JQuery, AngularJS, OpenLayer,) HTML, CSS<br>- Maîtrise de Linux<br><br>Aptitudes personnelles<br>Rigueur, autonomie, méthode, dynamisme, capacité d'analyse et de et de travail en équipe qui vous permettront de vous adapter rapidement à un environnement technique."
     assert_equal expect, doc.search_description_offer(url)
   end
 

@@ -35,13 +35,15 @@ offre_ajout = 0
   nb_offres = nb_offres - 1
   puts "_______________________________ STARTING ___________________________________"
   puts "-------------------- OFFER ID de l' offre : #{item["id"]} ------------------ "
-  puts "---- Disponibilité de l'offre : #{doc.offer_unavailable(item["url"])} (true = indisponible) ---------".colorize(:purple)
-  puts "---- Code rome : #{doc.check_code_rome(item["url"])} (true = code rome informatique) ---------".colorize(:purple)
-  puts "---- Is a city : #{doc.check_is_a_city(item["url"])} (true = c'est bien une ville) ---------".colorize(:purple)
+  puts "---- Disponibilité de l'offre : #{doc.offer_unavailable(item["url"])} (true = indisponible) ---------".colorize(:blue)
+  #puts "---- Code rome : #{doc.check_code_rome(item["url"])} (true = code rome informatique) ---------".colorize(:light_blue)
+  puts "---- Is a city : #{doc.check_is_a_city(item["url"])} (true = c'est bien une ville) ---------".colorize(:green)
 
   # if url is valid, it's inserted in job_offers table if not, it is deleted from parse table
 
-  if doc.offer_unavailable(item["url"]) == false && doc.check_code_rome(item["url"]) == true && doc.check_is_a_city(item["url"]) == true
+  #&& doc.check_code_rome(item["url"]) == true -> le code rome n'aparrait plus sur le détail de l'offre au 27/04/2016
+
+  if doc.offer_unavailable(item["url"]) == false && doc.check_is_a_city(item["url"]) == true
     adress = doc.search_region(item["url"]).gsub(/''/, "'")
 
     # Récupération du groupe de langage
@@ -85,11 +87,12 @@ offre_ajout = 0
         #  ------------------- USING BODY PARSER TO GET OFFERS DATA  ---------------------
 
         time = Time.now
-        data = [doc.search_region(item["url"]), item["id"], doc.search_title(item["url"]), doc.search_employment_type(item["url"]), doc.search_code_rome(item["url"]), doc.search_publication_date(item["url"]), doc.search_description_offer(item["url"]), item["url"], doc.search_company_description(item["url"]), @latitude, @longitude, doc.search_language(item["url"]), @lang_gr, time]
-
+        #data = [doc.search_region(item["url"]), item["id"], doc.search_title(item["url"]), doc.search_employment_type(item["url"]), doc.search_code_rome(item["url"]), doc.search_publication_date(item["url"]), doc.search_description_offer(item["url"]), item["url"], doc.search_company_description(item["url"]), @latitude, @longitude, doc.search_language(item["url"]), @lang_gr, time]
+        data = [doc.search_region(item["url"]), item["id"], doc.search_title(item["url"]), doc.search_employment_type(item["url"]), doc.search_publication_date(item["url"]), doc.search_description_offer(item["url"]), item["url"], doc.search_company_description(item["url"]), @latitude, @longitude, doc.search_language(item["url"]), @lang_gr, time]
         values = data.map {|v| "\'#{v}\'"}.join(',').to_s
 
-        CONN.exec("INSERT INTO job_offers (region_adress, offer_id, title, contrat_type, code_rome, publication_date, offer_description, url, company_description, latitude, longitude, lang, lang_gr, created_at) VALUES (#{values});")
+        #CONN.exec("INSERT INTO job_offers (region_adress, offer_id, title, contrat_type, code_rome, publication_date, offer_description, url, company_description, latitude, longitude, lang, lang_gr, created_at) VALUES (#{values});")
+        CONN.exec("INSERT INTO job_offers (region_adress, offer_id, title, contrat_type, publication_date, offer_description, url, company_description, latitude, longitude, lang, lang_gr, created_at) VALUES (#{values});")
 
         offre_ajout = offre_ajout + 1
 
